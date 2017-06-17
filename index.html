@@ -7,21 +7,27 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 </head>
 <body ng-controller='SuperheroController as vm'>
-  <h2>Superheroes</h2>
-  <div ng-repeat="superhero in vm.superheroes">
-    <p>{{$index + 1}}. {{superhero.name}} - Phone number: {{superhero.phoneNumber}}, {{superhero.comicsAffiliation}}</p>
-  </div>
+  <h2>Search Superheroes</h2>
 
+  <p>Find Superhero: {{vm.searchSuperhero}}</p>
+  <input type="text" ng-model="vm.searchSuperhero">
+
+  <div ng-repeat="superhero in vm.superheroes | filter: {name: vm.searchSuperhero}" ng-class="{ 'marvelColor' : superhero.comicsAffiliation === 'Marvel Comics', 'dcColor' : superhero.comicsAffiliation === 'DC Comics' }">
+    <img ng-src="{{superhero.img_url}}" ng-show="vm.viewSuperhero[$index]"/>
+    <p>{{$index + 1}}. {{superhero.name}}</p>
+    <button ng-click="vm.viewSuperhero[$index] =!vm.viewSuperhero[$index]">View Superhero</button>
+    <p>Phone Number: {{superhero.phoneNumber}}</p>
+    <p>Affiliation: {{superhero.comicsAffiliation}}</p>
+    <hr/>
+  </div>
   <div>
-    <input type="text" ng-model="vm.searchSuperhero">
-    <button ng-click="vm.addSuperhero()">Search Superheroes</button>
-    <p>Find Superhero: {{vm.searchSuperhero}}</p>
+    <h2>Add Superhero</h2>
+    <input type="text" ng-model="vm.newName" placeholder="Name">
+    <input type="text" ng-model="vm.newPhoneNumber" placeholder="Phone Number">
+    <input type="text" ng-model="vm.newComicAffiliation" placeholder="Comic Affiliation">
+    <input type="text" ng-model="vm.newImg_url" placeholder="Image URL">
+    <button ng-click="vm.addSuperhero()">Add Superhero</button>
   </div>
-
-  <div ng-repeat="superhero in vm.superheroes | filter: {name: vm.searchSuperhero}"}>
-    <p>{{superhero.name}}</p>
-  </div>
-
   <script src="app.js"></script>
 </body>
 </html>
